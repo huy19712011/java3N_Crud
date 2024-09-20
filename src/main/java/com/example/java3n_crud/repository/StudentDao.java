@@ -28,4 +28,9 @@ public class StudentDao {
 
         students.removeIf(student -> student.getId() == id);
     }
+
+    public void addStudent(Student student) {
+
+        students.add(student);
+    }
 }
