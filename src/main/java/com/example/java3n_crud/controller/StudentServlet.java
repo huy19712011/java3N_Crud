@@ -5,33 +5,55 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Map;
 
-@WebServlet(name = "StudentServlet", value = "/StudentServlet/*")
+//@WebServlet(name = "StudentServlet", value = "/StudentServlet/*")
+@WebServlet(name = "StudentServlet", value = {
+        "/students",
+        "/students/new",
+        "/students/delete",
+        "/students/edit",
+        "/students/update"
+})
 public class StudentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-
-        out.println("<html><body>");
-        out.println("<h1>Hello Student Servlet</h1>");
-        //out.println("Hi " + request.getParameter("name"));
-        out.println("getServletPath(): " + request.getServletPath());
-        out.println("<br>");
-        out.println("getRequestURL(): " + request.getRequestURL());
-        out.println("<br>");
-        out.println("getQueryString(): " + request.getQueryString());
-        out.println("<br>");
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
-            out.println(entry.getKey() + " : " + entry.getValue()[0]);
-            out.println("<br>");
+        String path = request.getServletPath();
+        System.out.println(path);
+        switch (path) {
+            case "/students":
+                listStudents(request, response);
+                break;
+            case "/students/new":
+                insertStudent(request, response);
+                break;
+            case "/students/delete":
+                deleteStudent(request, response);
+                break;
+            case "/students/edit":
+                editStudent(request, response);
+                break;
+            case "/students/update":
+                updateStudent(request, response);
+                break;
         }
-        out.println("getQueryString(): " + parameterMap);
-        out.println("<br>");
-        out.println("</body></html>");
+    }
+
+    private void updateStudent(HttpServletRequest request, HttpServletResponse response) {
+    }
+
+    private void editStudent(HttpServletRequest request, HttpServletResponse response) {
+    }
+
+    private void deleteStudent(HttpServletRequest request, HttpServletResponse response) {
+
+    }
+
+    private void insertStudent(HttpServletRequest request, HttpServletResponse response) {
+
+    }
+
+    private void listStudents(HttpServletRequest request, HttpServletResponse response) {
+
     }
 
     @Override
