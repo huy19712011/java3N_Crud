@@ -88,10 +88,42 @@ public class StudentServlet extends HttpServlet {
                 .forward(request, response);
     }
 
-    private void updateStudent(HttpServletRequest request, HttpServletResponse response) {
+    private void updateStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        // read student info from form
+        Student student = getStudentFromForm(request);
+
+        // update student
+        service.updateStudent(student);
+
+        // redirect to list students
+        response.sendRedirect("/students");
     }
 
-    private void editStudent(HttpServletRequest request, HttpServletResponse response) {
+    private Student getStudentFromForm(HttpServletRequest request) {
+        Long id = Long.parseLong(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+
+        // create student object
+        Student student = new Student(id, name, email, phone);
+        return student;
+    }
+
+    private void editStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        // load student info to the form
+        // get student id from form
+        Long id = Long.parseLong(request.getParameter("id"));
+        // get student by id
+        Student student = service.getStudentById(id);
+        // send student to form
+        request.setAttribute("student", student);
+        // redirect to form
+        request
+                .getRequestDispatcher("/view/updateStudentForm.jsp")
+                .forward(request, response);
     }
 
     private void deleteStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -106,13 +138,7 @@ public class StudentServlet extends HttpServlet {
     private void insertStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         // read student info from form
-        Long id = Long.parseLong(request.getParameter("id"));
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
-
-        // create student object
-        Student student = new Student(id, name, email, phone);
+        Student student = getStudentFromForm(request);
 
         // save student to list
         service.addStudent(student);
