@@ -6,6 +6,7 @@
 </head>
 <body>
 <h2>Students</h2>
+
 <table border="1">
     <tr>
         <th>#</th>
@@ -13,6 +14,8 @@
         <th>Name</th>
         <th>Email</th>
         <th>Phone</th>
+
+        <th colspan="3">Actions</th>
     </tr>
     <c:forEach var="tempStudent" items="${students}" varStatus="i">
         <tr>
@@ -21,6 +24,11 @@
             <td>${tempStudent.name}</td>
             <td>${tempStudent.email}</td>
             <td>${tempStudent.phone}</td>
+
+            <td>
+                <a href="/students/edit?id=${tempStudent.id}">Edit</a>
+                <a href="/students/delete?a=${tempStudent.id}">Delete</a>
+            </td>
         </tr>
     </c:forEach>
 </table>
