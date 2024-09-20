@@ -27,7 +27,7 @@
 
             <td>
                 <a href="/students/edit?id=${tempStudent.id}">Edit</a>
-                <a href="/students/delete?a=${tempStudent.id}">Delete</a>
+                <a href="/students/delete?id=${tempStudent.id}">Delete</a>
             </td>
         </tr>
     </c:forEach>
