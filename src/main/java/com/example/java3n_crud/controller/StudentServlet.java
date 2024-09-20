@@ -1,6 +1,7 @@
 package com.example.java3n_crud.controller;
 
 import com.example.java3n_crud.entity.Student;
+import com.example.java3n_crud.service.StudentService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -17,6 +18,9 @@ import java.util.ArrayList;
         "/students/update"
 })
 public class StudentServlet extends HttpServlet {
+
+    private StudentService service = new StudentService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getServletPath();
@@ -57,9 +61,11 @@ public class StudentServlet extends HttpServlet {
     private void listStudents(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //data: students
         ArrayList<Student> students = new ArrayList<>();
-        students.add(new Student(1001L, "student 1","email 1", "phone 1"));
-        students.add(new Student(1002L, "student 2","email 2", "phone 2"));
-        students.add(new Student(1003L, "student 3","email 3", "phone 3"));
+        //students.add(new Student(1001L, "student 1","email 1", "phone 1"));
+        //students.add(new Student(1002L, "student 2","email 2", "phone 2"));
+        //students.add(new Student(1003L, "student 3","email 3", "phone 3"));
+
+        students = service.getStudents();
         // => view: studentList.jsp
         request.setAttribute("students", students);
         request.getRequestDispatcher("/view/studentList.jsp").forward(request, response);
