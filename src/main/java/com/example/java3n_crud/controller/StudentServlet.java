@@ -128,7 +128,7 @@ public class StudentServlet extends HttpServlet {
 
     private void deleteStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        int id = Integer.parseInt(request.getParameter("id"));
+        long id = Integer.parseInt(request.getParameter("id"));
 
         service.deleteStudent(id);
 

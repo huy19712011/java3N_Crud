@@ -98,9 +98,36 @@ public class StudentDao {
             }
     }
 
-    public void deleteStudent(int id) {
+    public void deleteStudent(long id) {
 
-        students.removeIf(student -> student.getId() == id);
+        //students.removeIf(student -> student.getId() == id);
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = dcm.getConnection();
+            String sql = """
+                        DELETE FROM students WHERE id = ?;
+                    """;
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            // set values
+            preparedStatement.setLong(1, id);
+
+            preparedStatement.executeUpdate();
+
+            System.out.println("done...");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            //close(resultSet, preparedStatement, connection);
+            dcm.close(null, preparedStatement, connection);
+        }
+
+
     }
 
     public void addStudent(Student student) {

@@ -14,7 +14,7 @@ public class StudentService {
         return studentDao.getStudents();
     }
 
-    public void deleteStudent(int id) {
+    public void deleteStudent(long id) {
 
         studentDao.deleteStudent(id);
     }
