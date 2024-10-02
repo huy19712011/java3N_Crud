@@ -105,7 +105,36 @@ public class StudentDao {
 
     public void addStudent(Student student) {
 
-        students.add(student);
+        //students.add(student);
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = dcm.getConnection();
+            String sql = """
+                        INSERT INTO students (id, name, email, phone)
+                        VALUES (?, ?, ?, ?);
+                    """;
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            // set values
+            preparedStatement.setLong(1, student.getId());
+            preparedStatement.setString(2, student.getName());
+            preparedStatement.setString(3, student.getEmail());
+            preparedStatement.setString(4, student.getPhone());
+
+            preparedStatement.executeUpdate();
+
+            System.out.println("done...");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            //close(resultSet, preparedStatement, connection);
+            dcm.close(null, preparedStatement, connection);
+        }
+
     }
 
     public Student getStudentById(Long id) {
