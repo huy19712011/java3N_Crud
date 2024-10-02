@@ -166,7 +166,13 @@ public class StudentDao {
 
     public Student getStudentById(Long id) {
 
-        return students.stream()
+        //return students.stream()
+        //        .filter(student -> student.getId().equals(id))
+        //        .findFirst()
+        //        .orElse(null);
+
+        return getStudents()
+                .stream()
                 .filter(student -> student.getId().equals(id))
                 .findFirst()
                 .orElse(null);
@@ -174,6 +180,38 @@ public class StudentDao {
 
     public void updateStudent(Student student) {
 
-        students.set(students.indexOf(getStudentById(student.getId())), student);
+        //students.set(students.indexOf(getStudentById(student.getId())), student);
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = dcm.getConnection();
+            String sql = """
+                        UPDATE students
+                        SET name = ?, email = ?, phone = ?
+                        WHERE id = ?;
+                    """;
+
+            preparedStatement = connection.prepareStatement(sql);
+
+            // set values
+            preparedStatement.setLong(  4, student.getId());
+            preparedStatement.setString(1, student.getName());
+            preparedStatement.setString(2, student.getEmail());
+            preparedStatement.setString(3, student.getPhone());
+
+            preparedStatement.executeUpdate();
+
+            System.out.println("done...");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            //close(resultSet, preparedStatement, connection);
+            dcm.close(null, preparedStatement, connection);
+        }
+
+
     }
 }
