@@ -16,6 +16,10 @@
     <input type="submit" value="Upload">
 </form>
 
+<hr>
+<img src="${pageContext.request.contextPath}/images/java.png">
+<hr>
+
 <a href="hello-servlet">Hello Servlet</a>
 </body>
 </html>
